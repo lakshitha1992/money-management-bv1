@@ -1,70 +1,184 @@
-# Getting Started with Create React App
+# Money Management Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a React-based web application for managing finances. It provides features like user registration, login, and account management, and it's built using Material-UI for styling. The backend is PHP-based, which handles user authentication and registration. The app also integrates with a MySQL database for storing user data.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **User Authentication**: Users can sign up and log in.
+- **Responsive UI**: Built with Material-UI for modern, responsive design.
+- **Database Integration**: A MySQL database is used to store user data securely.
+- **Password Encryption**: Passwords are securely stored in the database using hashing techniques.
 
-### `npm start`
+## Project Structure
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Explanation of Project Structure:
 
-### `npm test`
+- **`backend/`**: Contains PHP files responsible for user authentication and database interaction.
+  - **`db_config.php`**: Stores MySQL connection details.
+  - **`login.php`**: Handles user login requests.
+  - **`signup.php`**: Handles user sign-up requests.
+  - **`money_management.sql`**: SQL script for creating the database and tables.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **`src/`**: Contains the React application code.
+  - **`components/`**: Contains React components such as `Login.js`, `SignUp.js`, `AuthContext.js` for managing authentication, and `ToastNotification.js` for handling toast notifications.
+  - **`App.js`**: Main component that renders the application's layout and routes.
+  - **`index.js`**: The entry point where the React app is initialized and rendered into the DOM.
+  - **`style.css`**: Optional CSS file for custom styles (if needed).
 
-### `npm run build`
+- **`.gitignore`**: Lists files and directories that should not be tracked by Git (e.g., node_modules, build files).
+- **`package.json`**: Contains project metadata, including dependencies and scripts.
+- **`README.md`**: Project documentation, including setup instructions, features, and contribution guidelines.
+- **`LICENSE`**: The license for the project (e.g., MIT License).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+This structure is organized to separate the backend PHP files from the frontend React components, keeping the code modular and easy to navigate.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Database Code
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+CREATE DATABASE IF NOT EXISTS react;
 
-### `npm run eject`
+USE react;
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+CREATE TABLE incomes (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  income_date DATE NOT NULL,
+  description VARCHAR(255) NOT NULL,
+  amount DECIMAL(10, 2) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+CREATE TABLE payments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    payment_date DATE NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### `src/`
+Contains all the React frontend code including components like `Login.js`, `SignUp.js`, and authentication context (`AuthContext.js`).
 
-## Learn More
+### `backend/`
+Contains PHP backend files for handling the authentication (login, signup) and database connections.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Setup Instructions
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Prerequisites
 
-### Code Splitting
+Make sure you have the following software installed:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- **Node.js**: [Download & Install Node.js](https://nodejs.org/)
+- **MySQL**: [Download & Install MySQL](https://www.mysql.com/)
+- **PHP**: [Download & Install PHP](https://www.php.net/)
 
-### Analyzing the Bundle Size
+### 1. Clone the repository
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+git clone https://github.com/lakshitha1992/money-management-bv1.git
+cd money-management-bv1
 
-### Making a Progressive Web App
+2. Install Frontend Dependencies
+Install the required dependencies for the frontend React application:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+bash
+Copy code
+npm install
+This will install dependencies such as:
 
-### Advanced Configuration
+react
+react-dom
+@mui/material
+@emotion/react
+@emotion/styled
+axios
+react-router-dom
+react-toastify
+To install react-toastify (for notifications):
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+bash
+Copy code
+npm install react-toastify
+3. Backend Setup (PHP)
+Create a new database in MySQL and run the provided money_management.sql script to set up the necessary tables.
 
-### Deployment
+Database Configuration:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Edit backend/db_config.php to add your MySQL credentials:
 
-### `npm run build` fails to minify
+php
+Copy code
+<?php
+define('DB_SERVER', 'localhost');
+define('DB_USERNAME', 'root');  // Change to your MySQL username
+define('DB_PASSWORD', '');      // Change to your MySQL password
+define('DB_DATABASE', 'money_management');  // Change to your database name
+?>
+PHP Files:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+login.php: Handles user login requests.
+signup.php: Handles user registration requests.
+4. Running the Project
+Frontend (React App)
+Start the React development server:
+bash
+Copy code
+npm start
+This will start the React app at http://localhost:3000.
+
+Backend (PHP)
+Place the backend folder in your PHP server's root directory (e.g., htdocs for XAMPP or www for WAMP).
+Ensure your PHP server is running, and access it through your browser at http://localhost/{your-folder}/backend/.
+5. Using the Application
+Sign Up: Navigate to the Sign-Up page, fill out the form, and submit it to create a new account.
+Login: After signing up, go to the Login page, enter your credentials, and log in to the app.
+6. Dependencies
+Frontend Dependencies
+The following npm packages are used:
+
+react-toastify: For displaying notifications and alerts in the frontend.
+axios: For making HTTP requests to the backend.
+@mui/material: For Material-UI components.
+@emotion/react, @emotion/styled: For styling with Material-UI.
+Backend Dependencies
+The PHP backend uses standard PHP libraries, and there are no additional dependencies required.
+
+7. Project Configuration
+In the src/ directory, configure the following files for optimal project setup:
+
+AuthContext.js: Manages the authentication state across the application.
+App.js: Main app component that renders the login and sign-up forms.
+8. GitHub and Social Media Links
+GitHub: https://github.com/lakshitha1992/money-management-bv1.git
+LinkedIn: LinkedIn Profile
+Twitter: Twitter Profile
+9. Contributing
+Feel free to contribute by creating pull requests. Here's how you can get started:
+
+Fork the repository.
+Create a new branch for your changes.
+Make changes and commit them with descriptive messages.
+Push your changes to your forked repository.
+Create a pull request to the main repository.
+10. License
+This project is open source and available under the MIT License. See the LICENSE file for more information.
+
+Thank you for checking out this project. If you have any questions or issues, feel free to open an issue or contact me on GitHub.
+
+
+### Explanation:
+
+- **Project Overview**: Describes what the project is and the key features.
+- **Project Structure**: Lists the folder structure to help you understand the organization of the code.
+- **Setup Instructions**: Includes detailed steps to clone the repo, install dependencies, and set up the database.
+- **Dependencies**: Lists all dependencies required for both frontend and backend.
+- **Running the Project**: Explains how to start the React app and the PHP server.
+- **GitHub and Social Links**: Provides your GitHub and social media links for users to connect with you.
